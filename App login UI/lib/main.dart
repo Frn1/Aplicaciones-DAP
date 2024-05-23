@@ -11,7 +11,9 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      title: 'App Login UI',
       routerConfig: router,
+      debugShowCheckedModeBanner: false,
     );
   }
 }

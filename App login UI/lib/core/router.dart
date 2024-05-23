@@ -15,4 +15,11 @@ final router = GoRouter(
     ),
   ],
   initialLocation: '/login',
+  redirect: (context, state) {
+    if (state.path != '/login') {
+      if (state.extra == null) {
+        return "/login";
+      }
+    } 
+  },
 );

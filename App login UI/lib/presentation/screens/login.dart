@@ -1,6 +1,9 @@
 import 'package:app_login_ui/core/router.dart';
 import 'package:flutter/material.dart';
 
+const allowedUsers = ["ale", "fran", "alan"];
+const allowedPasswords = ["terrenator", ":3", "anal"];
+
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
   // Controlador para el nombre de usuario para poder leer el texto dentro de la caja
@@ -43,11 +46,13 @@ class LoginScreen extends StatelessWidget {
                     hintText: "Username",
                   ),
                 ),
+
                 // Agregar un poco de espacio vertical entre las cajas de texto
                 // utilizando un SizedBox
                 const SizedBox(
                   height: 10,
                 ),
+
                 // Caja de texto para la contraseña
                 TextField(
                   // Controller para la contraseña
@@ -64,28 +69,58 @@ class LoginScreen extends StatelessWidget {
                     hintText: "Password",
                   ),
                 ),
+
                 // Agregar un poco de espacio vertical entre las cajas de texto
                 // y el botón de log in utilizando un SizedBox
                 const SizedBox(
                   height: 20,
                 ),
+
                 // Boton de log in
                 FilledButton(
                   onPressed: () {
                     var user = userController.text;
                     var pass = passController.text;
+
+                    // El usuario está vacio
                     if (user.isEmpty) {
-                      // El usuario está vacio
+                      ScaffoldMessenger.of(context)
+                        ..clearSnackBars()
+                        ..showSnackBar(
+                          // Mostrar mensajito abajo
+                          const SnackBar(
+                            content: Text("El usuario no puede estar vacío"),
+                          ),
+                        );
                       print('Username is empty');
                       return;
                     }
+
+                    // La contraseña está vacia
                     if (pass.isEmpty) {
-                      // La contraseña está vacia
+                      ScaffoldMessenger.of(context)
+                        ..clearSnackBars()
+                        ..showSnackBar(
+                          const SnackBar(
+                            content: Text("La contraseña no puede estar vacía"),
+                          ),
+                        );
                       print('Password is empty');
                       return;
                     }
-                    if (pass != '123abc') {
-                      // El usuario o contraseña están mal
+
+                    var userIndex = allowedUsers.indexOf(user); // Devuelve -1 cuando no encuentra al usuario
+
+                    // El usuario o contraseña están mal
+                    if (userIndex == -1 ||
+                        pass != allowedPasswords[userIndex]) {
+                      ScaffoldMessenger.of(context)
+                        ..clearSnackBars()
+                        ..showSnackBar(
+                          const SnackBar(
+                            content: Text("Usuario o contraseña incorrecta"),
+                          ),
+                        );
                       print('Wrong username or password');
                     } else {
                       // El usuario y contraseña están bien
