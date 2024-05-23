@@ -12,7 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bienvenido'),
+        title: Text('Bienvenido $user'),
         actions: [
           IconButton(
             onPressed: () {
@@ -61,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                             "Sí",
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.green[800],
+                              color: Colors.green[600],
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -103,15 +103,9 @@ class WelcomeScreen extends StatelessWidget {
         ],
         centerTitle: true,
       ),
-      body: SafeArea(
-        child: Center(
-          child: Text(
-            'Hola $user',
-            style: const TextStyle(
-              fontSize: 24,
-            ),
-            textAlign: TextAlign.center,
-          ),
+      body: ListView.builder(
+        itemBuilder: (context, index) => ListTile(
+          title: Text("Hola a $index"),
         ),
       ),
     );

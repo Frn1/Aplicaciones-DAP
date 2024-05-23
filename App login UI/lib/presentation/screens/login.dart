@@ -2,7 +2,7 @@ import 'package:app_login_ui/core/router.dart';
 import 'package:flutter/material.dart';
 
 const allowedUsers = ["ale", "fran", "alan"];
-const allowedPasswords = ["terrenator", ":3", "anal"];
+const allowedPasswords = ["terrenator", ":3", "hola"];
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
