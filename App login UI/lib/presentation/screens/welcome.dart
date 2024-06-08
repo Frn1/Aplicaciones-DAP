@@ -1,7 +1,33 @@
-import 'package:app_login_ui/core/router.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 import '../../core/wikipedia.dart';
+import '../../core/router.dart';
+import 'article.dart';
+import '../widget/error.dart';
+
+const articleTitles = [
+  "Dart",
+  "C++",
+  "C (lenguaje de programación)",
+  "Rust (lenguaje de programación)",
+  "JavaScript",
+  "Java (lenguaje de programación)",
+  "Lua",
+  "Perl",
+  "Haskell",
+  "Lisp",
+  "Brainfuck",
+  "Piet (lenguaje de programación)",
+  "COBOL",
+  "VBScript",
+  "BASIC",
+  "Lenguaje ensamblador",
+  "C Sharp",
+  "Python",
+  "Swift (lenguaje de programación)",
+  "Pascal (lenguaje de programación)"
+];
 
 class WelcomeScreen extends StatelessWidget {
   var cookieTouchCounter = 0;
@@ -10,7 +36,7 @@ class WelcomeScreen extends StatelessWidget {
 
   WelcomeScreen(this.user, {super.key});
 
-  var articles = getArticles(["Tennis"]);
+  var articles = getArticleIntros(articleTitles, sentenceCount: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -107,24 +133,60 @@ class WelcomeScreen extends StatelessWidget {
           ],
           centerTitle: true,
         ),
-        body: StreamBuilder(
-          stream: articles.asStream(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                if (snapshot.data == null) {
-                  return const Center(
-                    child: Icon(Icons.warning_rounded),
-                  );
+        body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: StreamBuilder(
+              stream: articles.asStream(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.done:
+                    var articles = snapshot.data;
+                    if (articles == null) {
+                      return Center(
+                        child: SimpleError(
+                          error: snapshot.error as String,
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(
+                              articles[index]!.title,
+                              style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              maxLines: 1,
+                            ),
+                            subtitle: articles[index]!.text != null
+                                ? Text(
+                                    articles[index]!.text!,
+                                    style: const TextStyle(
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    maxLines: 2,
+                                  )
+                                : null,
+                            onTap: () {
+                              router.push(
+                                '/articulo/${articles[index]!.title}',
+                                extra: user,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      itemCount: snapshot.data!.length,
+                    );
+                  default:
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
                 }
-                return Text(snapshot.data!.$2);
-              default:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-            }
-          },
-        )
+              },
+            ))
         // body: ListView.builder(
         //   itemCount: 10,
         //   itemBuilder: (context, index) => ListTile(
