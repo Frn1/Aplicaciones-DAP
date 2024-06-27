@@ -1,3 +1,6 @@
+import 'package:app_login_ui/core/item.dart';
+import 'package:app_login_ui/presentation/widget/cookies_button.dart';
+import 'package:app_login_ui/presentation/widget/log_out_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
@@ -6,37 +9,17 @@ import '../../core/router.dart';
 import 'article.dart';
 import '../widget/error.dart';
 
-const articleTitles = [
-  "Dart",
-  "C++",
-  "C (lenguaje de programación)",
-  "Rust (lenguaje de programación)",
-  "JavaScript",
-  "Java (lenguaje de programación)",
-  "Lua",
-  "Perl",
-  "Haskell",
-  "Lisp",
-  "Brainfuck",
-  "Piet (lenguaje de programación)",
-  "COBOL",
-  "VBScript",
-  "BASIC",
-  "Lenguaje ensamblador",
-  "C Sharp",
-  "Python",
-  "Swift (lenguaje de programación)",
-  "Pascal (lenguaje de programación)"
-];
-
 class WelcomeScreen extends StatelessWidget {
-  var cookieTouchCounter = 0;
-
   final String user;
 
   WelcomeScreen(this.user, {super.key});
 
-  var articles = getArticleIntros(articleTitles, sentenceCount: 2);
+  var articles = getArticleIntros(
+    testItems.map(
+      (item) => item.wikipediaTitle,
+    ),
+    sentenceCount: 2,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -44,92 +27,8 @@ class WelcomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: Text('Bienvenido $user'),
           actions: [
-            IconButton(
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => SimpleDialog(
-                    title: const Text('Confirmación'),
-                    children: [
-                      const Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 8.0,
-                          vertical: 16.0,
-                        ),
-                        child: Center(
-                          child: Text(
-                            '¿Estás seguro que quieres cerrar sesión?',
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          SimpleDialogOption(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              "No",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.red[500],
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SimpleDialogOption(
-                            onPressed: () {
-                              router.go("/login");
-                            },
-                            child: Text(
-                              "Sí",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.green[600],
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              },
-              icon: const Icon(Icons.logout),
-              tooltip: "Log out",
-            ),
-            IconButton(
-              onPressed: () {
-                cookieTouchCounter++;
-                if (cookieTouchCounter > 10) {
-                  showDialog(
-                    context: context,
-                    builder: (context) => const SimpleDialog(
-                      children: [
-                        Icon(Icons.cookie),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            'Mmmmm galletitas... que ricas...',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              icon: const Icon(Icons.cookie),
-              tooltip: "Mmmmm que rico",
-            ),
+            const LogOutButton(),
+            CookiesButton(),
           ],
           centerTitle: true,
         ),
@@ -150,10 +49,16 @@ class WelcomeScreen extends StatelessWidget {
                     }
                     return ListView.builder(
                       itemBuilder: (context, index) {
+                        print(articles[index]!.title);
+                        var testItemsIndex = testItems.indexWhere((item) => item
+                            .wikipediaTitle
+                            .toLowerCase()
+                            .contains(articles[index]!.title.toLowerCase()));
                         return Card(
                           child: ListTile(
                             title: Text(
-                              articles[index]!.title,
+                              testItems[testItemsIndex].title ??
+                                  testItems[testItemsIndex].wikipediaTitle,
                               style: const TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 fontWeight: FontWeight.bold,

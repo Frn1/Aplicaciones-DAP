@@ -19,7 +19,7 @@ class FullArticle {
 }
 
 Future<List<ArticleIntro?>> getArticleIntros(
-  List<String> titles, {
+  Iterable<String> titles, {
   bool introSection = true,
   int? sentenceCount,
 }) async {
@@ -69,7 +69,7 @@ Future<FullArticle> getFullarticle(String page) async {
     'prop': ['text'].join('|'),
     'page': page,
     'redirects': '1',
-    'mobileformat': '1',
+    // 'mobileformat': '1',
   };
 
   var url = Uri.https('es.wikipedia.org', 'w/api.php', queryParams);
