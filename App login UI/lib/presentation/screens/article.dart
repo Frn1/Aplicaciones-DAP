@@ -10,12 +10,13 @@ class ArticleScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var articles = getFullarticle(title).asStream().asBroadcastStream();
+    var articles = getFullarticle(title);
+    var articlesBroadcast = articles.asStream().asBroadcastStream();
 
     return Scaffold(
       appBar: AppBar(
         title: StreamBuilder(
-          stream: articles,
+          stream: articlesBroadcast,
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
@@ -30,7 +31,7 @@ class ArticleScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: StreamBuilder(
-            stream: articles,
+            stream: articlesBroadcast,
             builder: (context, snapshot) {
               switch (snapshot.connectionState) {
                 case ConnectionState.done:
@@ -51,6 +52,14 @@ class ArticleScreen extends StatelessWidget {
                       onErrorBuilder: (context, element, error) {
                         return SimpleError(error: error);
                       },
+                      onLoadingBuilder: (context, element, loadingProgress) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: loadingProgress,
+                          ),
+                        );
+                      },
+                      enableCaching: true,
                     ),
                   );
                 default:

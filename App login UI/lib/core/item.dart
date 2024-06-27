@@ -11,37 +11,50 @@ class Item {
   const Item({required this.wikipediaTitle, this.title, this.imageUrl});
 }
 
-const testItems = [
-  Item(wikipediaTitle: "Dart"),
-  Item(wikipediaTitle: "C++"),
+final testItems = [
   Item(
+    wikipediaTitle: "Dart",
+    imageUrl: Uri.parse(
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Dart_programming_language_logo.svg/1024px-Dart_programming_language_logo.svg.png",
+    ),
+  ),
+  Item(
+    wikipediaTitle: "C++",
+    imageUrl: Uri.parse(
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/683px-ISO_C%2B%2B_Logo.svg.png",
+    ),
+  ),
+  const Item(
     wikipediaTitle: "C (lenguaje de programación)",
     title: "C",
   ),
-  Item(
+  const Item(
     wikipediaTitle: "Rust (lenguaje de programación)",
     title: "Rust",
   ),
-  Item(wikipediaTitle: "JavaScript"),
-  Item(
+  const Item(wikipediaTitle: "JavaScript"),
+  const Item(
     wikipediaTitle: "Java (lenguaje de programación)",
     title: "Java",
   ),
-  Item(wikipediaTitle: "Lua"),
-  Item(wikipediaTitle: "Perl"),
-  Item(wikipediaTitle: "Haskell"),
-  Item(wikipediaTitle: "Lisp"),
-  Item(wikipediaTitle: "Brainfuck"),
+  const Item(wikipediaTitle: "Lua"),
+  const Item(wikipediaTitle: "Perl"),
+  const Item(wikipediaTitle: "Haskell"),
+  const Item(wikipediaTitle: "Lisp"),
+  const Item(wikipediaTitle: "Brainfuck"),
   Item(
     wikipediaTitle: "Piet (lenguaje de programación)",
     title: "Piet",
+    imageUrl: Uri.parse(
+        "https://upload.wikimedia.org/wikipedia/commons/d/d0/Piet_Program.gif"),
   ),
-  Item(wikipediaTitle: "COBOL"),
-  Item(wikipediaTitle: "VBScript"),
-  Item(wikipediaTitle: "Basic"),
-  Item(wikipediaTitle: "Lenguaje ensamblador"),
-  Item(wikipediaTitle: "C Sharp", title: "C#"),
-  Item(wikipediaTitle: "Python"),
-  Item(wikipediaTitle: "Swift (lenguaje de programación)", title: "Swift"),
-  Item(wikipediaTitle: "Pascal")
+  const Item(wikipediaTitle: "COBOL"),
+  const Item(wikipediaTitle: "VBScript"),
+  const Item(wikipediaTitle: "Basic"),
+  const Item(wikipediaTitle: "Lenguaje ensamblador"),
+  const Item(wikipediaTitle: "C Sharp", title: "C#"),
+  const Item(wikipediaTitle: "Python"),
+  const Item(
+      wikipediaTitle: "Swift (lenguaje de programación)", title: "Swift"),
+  const Item(wikipediaTitle: "Pascal")
 ];

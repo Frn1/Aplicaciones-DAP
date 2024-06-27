@@ -14,6 +14,7 @@ class _CookiesButtonState extends State<CookiesButton> {
 
   @override
   Widget build(BuildContext context) {
+    final cookieScale = log(cookieTouchCounter / 5 + 1) / log(5) + 1;
     return IconButton(
       onPressed: () {
         setState(() {
@@ -42,8 +43,13 @@ class _CookiesButtonState extends State<CookiesButton> {
         }
       },
       icon: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        // transform: Matrix4.translation(Vector3 ).scaled(log(cookieTouchCounter / 10 + 1) / log(10) + 1,),
+        duration: const Duration(milliseconds: 50),
+        transform: Matrix4.diagonal3Values(
+          cookieScale,
+          cookieScale,
+          cookieScale,
+        ),
+        transformAlignment: Alignment.center,
         child: Icon(
           Icons.cookie,
           size: 24,
