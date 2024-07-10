@@ -1,8 +1,14 @@
 import 'package:app_login_ui/core/router.dart';
 import 'package:flutter/material.dart';
 
-const allowedUsers = ["ale", "fran", "alan"];
-const allowedPasswords = ["terrenator", ":3", "hola"];
+const users = [User("ale", "terrenator"), User("fran", ":3"), User("alan", "hola")];
+
+class User {
+  final String username;
+  String password;
+
+  User(this.username, this.password);
+}
 
 // ignore: must_be_immutable
 class LoginScreen extends StatelessWidget {
@@ -109,11 +115,11 @@ class LoginScreen extends StatelessWidget {
                       return;
                     }
 
-                    var userIndex = allowedUsers.indexOf(user); // Devuelve -1 cuando no encuentra al usuario
+                    var userIndex = allowedUsers.indexOf(User(user, pass)); // Devuelve -1 cuando no encuentra al usuario
 
                     // El usuario o contraseña están mal
                     if (userIndex == -1 ||
-                        pass != allowedPasswords[userIndex]) {
+                        pass != users[userIndex].password) {
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
                         ..showSnackBar(
