@@ -56,5 +56,5 @@ final testItems = [
   const Item(wikipediaTitle: "Python"),
   const Item(
       wikipediaTitle: "Swift (lenguaje de programación)", title: "Swift"),
-  const Item(wikipediaTitle: "Pascal")
+  const Item(wikipediaTitle: "Pascal (lenguaje de programación)", title: "Pascal")
 ];

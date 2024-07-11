@@ -25,7 +25,7 @@ class WelcomeScreen extends StatelessWidget {
           centerTitle: true,
         ),
         body: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: StreamBuilder(
               stream: getArticleIntros(
                 testItems.map(

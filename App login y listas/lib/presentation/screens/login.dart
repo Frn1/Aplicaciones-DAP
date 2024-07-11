@@ -1,13 +1,25 @@
 import 'package:app_login_ui/core/router.dart';
 import 'package:flutter/material.dart';
 
-const users = [User("ale", "terrenator"), User("fran", ":3"), User("alan", "hola")];
+final users = [
+  User("ale", "terrenator"),
+  User("fran", ":3"),
+  User("alan", "hola")
+];
 
 class User {
   final String username;
   String password;
 
   User(this.username, this.password);
+
+  @override
+  bool operator ==(Object other) {
+    if (other is User) {
+      return username == other.username && password == other.password;
+    }
+    return this == other;
+  }
 }
 
 // ignore: must_be_immutable
@@ -84,6 +96,29 @@ class LoginScreen extends StatelessWidget {
 
                 // Boton de log in
                 FilledButton(
+                  // Para poner más de una cosa dentro del botón
+                  // pongo un Row
+                  child: const Row(
+                    // Si no le digo que se achique al mínimo tamaño posible
+                    // me hace un botón gigantesco que va hasta el final
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Texto del botón
+                      Text(
+                        'Log in',
+                      ),
+                      // Un poquito de espacio horizontal usando SizedBox
+                      SizedBox(
+                        width: 5,
+                      ),
+                      // El ícono de login
+                      Icon(
+                        Icons.login,
+                        size: 20,
+                      ),
+                    ],
+                  ),
+
                   onPressed: () {
                     var user = userController.text;
                     var pass = passController.text;
@@ -115,11 +150,12 @@ class LoginScreen extends StatelessWidget {
                       return;
                     }
 
-                    var userIndex = allowedUsers.indexOf(User(user, pass)); // Devuelve -1 cuando no encuentra al usuario
+                    var userIndex = users.indexOf(
+                      User(user, pass),
+                    ); // Devuelve -1 cuando no encuentra al usuario
 
                     // El usuario o contraseña están mal
-                    if (userIndex == -1 ||
-                        pass != users[userIndex].password) {
+                    if (userIndex == -1 || pass != users[userIndex].password) {
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
                         ..showSnackBar(
@@ -134,28 +170,6 @@ class LoginScreen extends StatelessWidget {
                       router.go('/', extra: user);
                     }
                   },
-                  // Para poner más de una cosa dentro del botón
-                  // pongo un Row
-                  child: const Row(
-                    // Si no le digo que se achique al mínimo tamaño posible
-                    // me hace un botón gigantesco que va hasta el final
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Texto del botón
-                      Text(
-                        'Log in',
-                      ),
-                      // Un poquito de espacio horizontal usando SizedBox
-                      SizedBox(
-                        width: 5,
-                      ),
-                      // El ícono de login
-                      Icon(
-                        Icons.login,
-                        size: 20,
-                      ),
-                    ],
-                  ),
                 ),
               ],
             ),

@@ -29,7 +29,7 @@ class ArticleScreen extends StatelessWidget {
       ),
       body: SizedBox.expand(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
           child: StreamBuilder(
             stream: articlesBroadcast,
             builder: (context, snapshot) {
@@ -43,23 +43,45 @@ class ArticleScreen extends StatelessWidget {
                     );
                   }
                   return SizedBox.expand(
-                    child: HtmlWidget(
-                      "${snapshot.data?.html}",
-                      renderMode: RenderMode.listView,
-                      baseUrl: Uri.parse("https://es.wikipedia.org"),
-                      onTapImage: (p0) {},
-                      onTapUrl: null,
-                      onErrorBuilder: (context, element, error) {
-                        return SimpleError(error: error);
-                      },
-                      onLoadingBuilder: (context, element, loadingProgress) {
-                        return Center(
-                          child: CircularProgressIndicator(
-                            value: loadingProgress,
-                          ),
-                        );
-                      },
-                      enableCaching: true,
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: HtmlWidget(
+                          "${snapshot.data?.html}",
+                          renderMode: RenderMode.column,
+                          baseUrl: Uri.parse("https://es.wikipedia.org"),
+                          onTapImage: (p0) {},
+                          onTapUrl: null,
+                          onErrorBuilder: (context, element, error) {
+                            return SimpleError(error: error);
+                          },
+                          customStylesBuilder: (element) {
+                            switch (element.localName) {
+                              case "tr":
+                                final color = Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainer;
+                                return {
+                                  "background-color": "transparent",
+                                };
+                              case "pre":
+                              case "code":
+                                return {
+                                  "font-family": "Courier, monospace",
+                                };
+                            }
+                          },
+                          onLoadingBuilder:
+                              (context, element, loadingProgress) {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress,
+                              ),
+                            );
+                          },
+                          enableCaching: true,
+                        ),
+                      ),
                     ),
                   );
                 default:

@@ -11,7 +11,12 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      title: 'App Login UI',
+      title: 'App Login y Listas',
+      theme: ThemeData(
+        colorSchemeSeed: Colors.orange,
+        brightness: MediaQuery.of(context).platformBrightness,
+        useMaterial3: true,
+      ),
       routerConfig: router,
       debugShowCheckedModeBanner: false,
     );
