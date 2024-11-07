@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "614660920402",
+    "firebase_url": "https://tp-5-st-24f88-default-rtdb.firebaseio.com",
+    "project_id": "tp-5-st-24f88",
+    "storage_bucket": "tp-5-st-24f88.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614660920402:android:c790f678abed58790cbb8b",
+        "android_client_info": {
+          "package_name": "com.frn1.tp4"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzkiAw7Fjy581W-ZfbjGlPpq1AWupe8O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614660920402:android:1e171d3bb76c8f2c0cbb8b",
+        "android_client_info": {
+          "package_name": "com.frn1.tp5"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzkiAw7Fjy581W-ZfbjGlPpq1AWupe8O4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
