@@ -1,10 +1,12 @@
+import 'package:app_tp_final/providers/user.dart';
 import 'package:app_tp_final/screens/loading.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '/models/user.dart';
 import '/router.dart';
 
 // ignore: must_be_immutable
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   // Controlador para el nombre de usuario para poder leer el texto dentro de la caja
   final userController = TextEditingController();
   // Controlador para la contraseña para poder leer el texto dentro de la caja
@@ -13,7 +15,7 @@ class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log in'),
@@ -139,12 +141,14 @@ class LoginScreen extends StatelessWidget {
                     );
 
                     final user = User(username, password);
+                    final firebaseUser = await User.getFromFirebase(username);
 
                     try {
-                      if (user == await User.getFromFirebase(username)) {
+                      if (user == firebaseUser) {
                         // El usuario y contraseña están bien
                         print('Welcome, $username');
-                        router.go('/', extra: username);
+                        ref.read(userProvider.notifier).state = firebaseUser;
+                        router.go('/');
                       } else {
                         // El usuario o contraseña están mal
                         ScaffoldMessenger.of(context)
