@@ -1,4 +1,6 @@
+// Flutter imports:
 import 'package:flutter/material.dart';
+
 /// A dialog page with Material entrance and exit animations, modal barrier color,
 /// and modal barrier behavior (dialog is dismissible with a tap on the barrier).
 class DialogPage<T> extends Page<T> {

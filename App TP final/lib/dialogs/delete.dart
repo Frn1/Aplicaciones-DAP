@@ -1,9 +1,15 @@
+// Flutter imports:
+import 'package:app_tp_final/models/shopping_item.dart';
+import 'package:app_tp_final/providers/user.dart';
+import 'package:app_tp_final/screens/loading.dart';
 import 'package:flutter/material.dart';
 
+// Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+// Project imports:
+import '/providers/shopping_list.dart';
 import '/router.dart';
-import '../providers/grocery_list.dart';
 
 class DeleteElementDialog extends ConsumerWidget {
   final int elementIndex;
@@ -15,29 +21,39 @@ class DeleteElementDialog extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final element = ref.read(groceryListProvider)[elementIndex];
-    final name = element.$1;
+    final shoppingListActivity = ref.watch(groceryListProvider.call(user!));
 
-    return AlertDialog.adaptive(
+    return switch (shoppingListActivity) {
+      AsyncData(:final value) => _loaded(value[elementIndex].$1, context, ref),
+      AsyncError(:final error) => AlertDialog(
+          title: const Text('Error!'),
+          content: Text('$error'),
+        ),
+      _ => const LoadingScreen(),
+    };
+  }
+
+  AlertDialog _loaded(
+    ShoppingItem item,
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final name = item.name;
+    return AlertDialog(
       title: Text("Eliminar \"$name\""),
       actions: [
         TextButton(
           onPressed: () {
-            Navigator.of(context).pop();
+            router.pop();
           },
           child: const Text(
             "No",
           ),
         ),
         TextButton(
-          onPressed: () {
+          onPressed: () async {
+            await removeItem(ref, item);
             router.pop();
-            final newState = ref
-                .read(groceryListProvider.notifier)
-                .state
-                .toList(); // Clone the state
-            newState.removeAt(elementIndex);
-            ref.read(groceryListProvider.notifier).state = newState;
           },
           child: const Text(
             "Sí",

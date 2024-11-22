@@ -1,14 +1,17 @@
+// Flutter imports:
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Package imports:
 import 'package:go_router/go_router.dart';
 
+// Project imports:
 import '/dialogs/delete.dart';
 import '/dialogs/edit.dart';
 import '/dialogs/new.dart';
-import '/screens/login.dart';
-import '/screens/grocery_list.dart';
 import '/pages/dialog.dart';
 import '/providers/user.dart';
+import 'screens/shopping_list.dart';
+import '/screens/login.dart';
 
 final router = GoRouter(
   routes: [
@@ -59,9 +62,9 @@ final router = GoRouter(
     ),
   ],
   redirect: (context, state) {
-    final user = ProviderScope.containerOf(context).read(userProvider);
     if (user == null) {
       return '/login';
     }
+    return null;
   },
 );

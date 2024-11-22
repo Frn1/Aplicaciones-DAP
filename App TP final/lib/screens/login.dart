@@ -1,7 +1,14 @@
+// Flutter imports:
+import 'package:app_tp_final/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+// Project imports:
 import 'package:app_tp_final/providers/user.dart';
 import 'package:app_tp_final/screens/loading.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '/models/user.dart';
 import '/router.dart';
 
@@ -140,14 +147,28 @@ class LoginScreen extends ConsumerWidget {
                       useSafeArea: false,
                     );
 
-                    final user = User(username, password);
+                    final enteredUser = User(username, password);
                     final firebaseUser = await User.getFromFirebase(username);
 
                     try {
-                      if (user == firebaseUser) {
+                      if (enteredUser == firebaseUser) {
                         // El usuario y contraseña están bien
                         print('Welcome, $username');
-                        ref.read(userProvider.notifier).state = firebaseUser;
+                        user = firebaseUser;
+
+                        // Guardar usuario y contraseña en datos de usuario
+                        final sharedPreferences = await getSharedPreferences();
+                        sharedPreferences.setString('username', user!.username);
+                        sharedPreferences.setString('password', user!.password);
+
+                        final firestore = FirebaseFirestore.instance;
+                        await firestore
+                            .collection('grocery_lists')
+                            .doc(user!.username)
+                            .set(
+                          {'list': FieldValue.arrayUnion([])},
+                          SetOptions(merge: true),
+                        );
                         router.go('/');
                       } else {
                         // El usuario o contraseña están mal
