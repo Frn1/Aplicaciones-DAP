@@ -9,9 +9,9 @@ import '/dialogs/delete.dart';
 import '/dialogs/edit.dart';
 import '/dialogs/new.dart';
 import '/pages/dialog.dart';
-import '/providers/user.dart';
-import 'screens/shopping_list.dart';
 import '/screens/login.dart';
+import 'screens/shopping_list.dart';
+import 'user.dart';
 
 final router = GoRouter(
   routes: [

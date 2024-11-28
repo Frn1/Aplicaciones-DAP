@@ -1,14 +1,14 @@
 // Flutter imports:
-import 'package:app_tp_final/models/shopping_item.dart';
-import 'package:app_tp_final/screens/loading.dart';
-import 'package:app_tp_final/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:app_tp_final/providers/user.dart';
+import 'package:app_tp_final/models/shopping_item.dart';
+import 'package:app_tp_final/screens/loading.dart';
+import 'package:app_tp_final/shared_preferences.dart';
+import 'package:app_tp_final/user.dart';
 import '/providers/shopping_list.dart';
 import '/router.dart';
 
@@ -31,7 +31,20 @@ class GroceryListScreen extends ConsumerWidget {
               sharedPreferences.remove('password');
               router.go('/');
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
+          ),
+          IconButton(
+            onPressed: () {
+              showLicensePage(
+                context: context,
+                applicationName: "App TP Final de DAP por Francisco y Eitan",
+                applicationIcon: const Text(
+                  ':3',
+                  style: TextStyle(fontSize: 64),
+                ),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
           ),
         ],
       ),

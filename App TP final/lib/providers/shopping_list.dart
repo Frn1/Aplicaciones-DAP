@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import '../models/shopping_item.dart';
+import '../user.dart';
 import '/models/user.dart';
-import '/providers/user.dart';
 
 final groceryListProvider =
     FutureProvider.family<List<(ShoppingItem, GlobalKey)>, User>(
@@ -34,13 +33,14 @@ Future<void> addItem(WidgetRef ref, ShoppingItem item) async {
   final groceryList = groceryListProvider.call(user!);
 
   final firestore = FirebaseFirestore.instance;
-  ref.invalidate(groceryList);
   await firestore.collection('grocery_lists').doc(user!.username).update(
     {
       'list': FieldValue.arrayUnion([item.toMap()])
     },
   );
   ref.invalidate(groceryList);
+  // Work-around to avoid weird error flashes
+  await Future.delayed(const Duration(milliseconds: 60));
 }
 
 Future<void> removeItem(WidgetRef ref, ShoppingItem item) async {
@@ -51,13 +51,14 @@ Future<void> removeItem(WidgetRef ref, ShoppingItem item) async {
   final groceryList = groceryListProvider.call(user!);
 
   final firestore = FirebaseFirestore.instance;
-  ref.invalidate(groceryList);
   await firestore.collection('grocery_lists').doc(user!.username).update(
     {
       'list': FieldValue.arrayRemove([item.toMap()])
     },
   );
   ref.invalidate(groceryList);
+  // Work-around to avoid weird error flashes
+  await Future.delayed(const Duration(milliseconds: 60));
 }
 
 Future<void> moveItem(WidgetRef ref, int oldIndex, int newIndex) async {
@@ -68,7 +69,6 @@ Future<void> moveItem(WidgetRef ref, int oldIndex, int newIndex) async {
   final groceryList = groceryListProvider.call(user!);
   final currentGroceryList = await Future.microtask(() {
     final asyncValue = ref.read(groceryList);
-    ref.invalidate(groceryList);
     while (asyncValue.isLoading) {}
 
     return switch (asyncValue) {
@@ -84,8 +84,6 @@ Future<void> moveItem(WidgetRef ref, int oldIndex, int newIndex) async {
   final item = newState.removeAt(oldIndex);
   newState.insert(newIndex, item);
 
-  ref.invalidate(groceryList);
-
   await firestore.collection('grocery_lists').doc(user!.username).update(
     {
       'list': newState
@@ -96,6 +94,8 @@ Future<void> moveItem(WidgetRef ref, int oldIndex, int newIndex) async {
     },
   );
   ref.invalidate(groceryList);
+  // Work-around to avoid weird error flashes
+  await Future.delayed(const Duration(milliseconds: 60));
 }
 
 Future<void> editItem(WidgetRef ref, int index, ShoppingItem item) async {
@@ -106,7 +106,6 @@ Future<void> editItem(WidgetRef ref, int index, ShoppingItem item) async {
   final groceryList = groceryListProvider.call(user!);
   final currentGroceryList = await Future.microtask(() {
     final asyncValue = ref.read(groceryList);
-    ref.invalidate(groceryList);
     while (asyncValue.isLoading) {}
 
     return switch (asyncValue) {
@@ -119,7 +118,6 @@ Future<void> editItem(WidgetRef ref, int index, ShoppingItem item) async {
   final firestore = FirebaseFirestore.instance;
   final newState = currentGroceryList.map((e) => e.$1).toList();
   newState[index] = item;
-  ref.invalidate(groceryList);
   await firestore.collection('grocery_lists').doc(user!.username).update(
     {
       'list': newState.map(
@@ -128,4 +126,6 @@ Future<void> editItem(WidgetRef ref, int index, ShoppingItem item) async {
     },
   );
   ref.invalidate(groceryList);
+  // Work-around to avoid weird error flashes
+  await Future.delayed(const Duration(milliseconds: 60));
 }

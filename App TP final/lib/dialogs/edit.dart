@@ -1,13 +1,13 @@
 // Flutter imports:
-import 'package:app_tp_final/models/shopping_item.dart';
-import 'package:app_tp_final/providers/user.dart';
-import 'package:app_tp_final/screens/loading.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:app_tp_final/models/shopping_item.dart';
+import 'package:app_tp_final/screens/loading.dart';
+import 'package:app_tp_final/user.dart';
 import '/providers/shopping_list.dart';
 import '/router.dart';
 

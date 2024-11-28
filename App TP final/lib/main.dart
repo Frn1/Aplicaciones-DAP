@@ -1,7 +1,4 @@
 // Flutter imports:
-import 'package:app_tp_final/models/user.dart';
-import 'package:app_tp_final/providers/user.dart';
-import 'package:app_tp_final/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,6 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // Project imports:
+import 'package:app_tp_final/models/user.dart';
+import 'package:app_tp_final/shared_preferences.dart';
+import 'package:app_tp_final/user.dart';
 import '/firebase_options.dart';
 import '/router.dart';
 

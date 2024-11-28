@@ -1,14 +1,14 @@
 // Flutter imports:
-import 'package:app_tp_final/shared_preferences.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:app_tp_final/providers/user.dart';
 import 'package:app_tp_final/screens/loading.dart';
+import 'package:app_tp_final/shared_preferences.dart';
+import 'package:app_tp_final/user.dart';
 import '/models/user.dart';
 import '/router.dart';
 
@@ -26,7 +26,21 @@ class LoginScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Log in'),
-        centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {
+              showLicensePage(
+                context: context,
+                applicationName: "App TP Final de DAP por Francisco y Eitan",
+                applicationIcon: const Text(
+                  ':3',
+                  style: TextStyle(fontSize: 64),
+                ),
+              );
+            },
+            icon: const Icon(Icons.info_outline),
+          ),
+        ],
       ),
       // Hacegurarme que no se me corte la app por algun borde o algo así
       body: SafeArea(
